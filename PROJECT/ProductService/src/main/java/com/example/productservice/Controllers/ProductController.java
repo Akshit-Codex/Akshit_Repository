@@ -1,11 +1,15 @@
 package com.example.productservice.Controllers;
 
+import com.example.productservice.DTOs.CreateFakeStoreProductRequestDTO;
+import com.example.productservice.DTOs.ErrorDTO;
 import com.example.productservice.DTOs.ProductResponseDTO;
+import com.example.productservice.Exceptions.ProductNotFoundException;
 import com.example.productservice.Models.Product;
 import com.example.productservice.Services.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ProductController
@@ -16,11 +20,53 @@ public class ProductController
         this.productService = productService;
     }
     @GetMapping("/product/{ID}")
-    public ProductResponseDTO getProductByID(@PathVariable long ID)
+    public ProductResponseDTO getProductByID(@PathVariable long ID) throws ProductNotFoundException
     {
         Product product=productService.getProductByID(ID);
 
         return ProductResponseDTO.from(product);
         //return productService.getProductByID(ID);
+    }
+
+    @GetMapping("/product")
+    public List<ProductResponseDTO> getAllProducts()
+    {
+        List<Product> products=productService.getAllProducts();
+
+        List<ProductResponseDTO> productResponseDTOS=new ArrayList<>();
+        for(Product product:products)
+        {
+            ProductResponseDTO productResponseDTO=ProductResponseDTO.from(product);
+            productResponseDTOS.add(productResponseDTO);
+        }
+        return productResponseDTOS;
+    }
+
+    @PostMapping("/product")
+    public ProductResponseDTO createProduct(
+            @RequestBody CreateFakeStoreProductRequestDTO createFakeStoreProductRequestDTO)
+    {
+        Product product=productService.createProduct(
+                createFakeStoreProductRequestDTO.getName(),
+                createFakeStoreProductRequestDTO.getPrice(),
+                createFakeStoreProductRequestDTO.getDescription(),
+                createFakeStoreProductRequestDTO.getImageUrl(),
+                createFakeStoreProductRequestDTO.getCategory());
+        return ProductResponseDTO.from(product);
+    }
+
+    @PutMapping("/product/{ID}")
+    public ProductResponseDTO replaceProduct(@PathVariable long ID,
+                                             @RequestBody CreateFakeStoreProductRequestDTO
+                                                     createFakeStoreProductRequestDTO)
+    {
+        Product product=productService.replaceProduct(
+                ID,
+                createFakeStoreProductRequestDTO.getName(),
+                createFakeStoreProductRequestDTO.getPrice(),
+                createFakeStoreProductRequestDTO.getDescription(),
+                createFakeStoreProductRequestDTO.getImageUrl(),
+                createFakeStoreProductRequestDTO.getCategory());
+        return ProductResponseDTO.from(product);
     }
 }

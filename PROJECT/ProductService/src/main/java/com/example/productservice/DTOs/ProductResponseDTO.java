@@ -16,7 +16,7 @@ public class ProductResponseDTO
     private String image;
     private String category;
 
-//    public ProductResponseDTO(Product product)
+//    public ProductResponseDTO(Product product) I had created this constructor just to test
 //    {
 //        this.ID=product.getID();
 //        this.title=product.getName();
