@@ -6,6 +6,7 @@ import com.example.productservice.DTOs.ProductResponseDTO;
 import com.example.productservice.Exceptions.ProductNotFoundException;
 import com.example.productservice.Models.Product;
 import com.example.productservice.Services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ import java.util.List;
 public class ProductController
 {
     ProductService productService;
-    public ProductController(ProductService productService)
+    public ProductController(
+            @Qualifier("productDbService") ProductService productService)
     {
         this.productService = productService;
     }
