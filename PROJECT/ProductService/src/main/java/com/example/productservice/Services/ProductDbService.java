@@ -25,6 +25,20 @@ public class ProductDbService implements ProductService
     @Override
     public Product getProductByID(long ID) throws ProductNotFoundException
     {
+        //Here we are demonstrating Query By Method
+//        Optional<Category> categoryOptional=categoryRepository.findByName("electronics");
+//        List<Product> productList=productRepository.findByCategory(categoryOptional.get());
+
+        // Here we are demonstrating Declarative Queries
+        //List<Product> products=productRepository.findByCategory_Name("electronics");
+
+        //Here we are demonstrating JPQL
+//        List<Product> products=productRepository.getProductsByCategoryName("electronics");
+
+        //Here we are demonstrating Native Queries
+//        List<Product> products=productRepository.getProductsByCategoryNameNative("electronics");
+//        System.out.println(products);
+
         Optional<Product> productOptional = productRepository.findById(ID);
 
         if(productOptional.isEmpty())
@@ -32,6 +46,7 @@ public class ProductDbService implements ProductService
             throw new ProductNotFoundException("Product with ID "+ ID + " not found");
         }
         return productOptional.get();
+
     }
 
     @Override
@@ -53,7 +68,7 @@ public class ProductDbService implements ProductService
     public Product replaceProduct(long id, String name, double price, String description, String imageUrl, String category)
     {
         Product product = new Product();
-        product.setId((int)id);// If you dont set the ID this will act as create Product,
+        product.setId(id);// If you dont set the ID this will act as create Product,
         // but if you are replacing some product you require ID that's why we are setting ID here.
 
         buildProduct(product,name,price,description,imageUrl,category);

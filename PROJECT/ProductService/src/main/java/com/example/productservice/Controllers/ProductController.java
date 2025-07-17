@@ -7,6 +7,8 @@ import com.example.productservice.Exceptions.ProductNotFoundException;
 import com.example.productservice.Models.Product;
 import com.example.productservice.Services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ public class ProductController
     }
 
     @PostMapping("/product")
-    public ProductResponseDTO createProduct(
+    public ResponseEntity<ProductResponseDTO> createProduct(
             @RequestBody CreateFakeStoreProductRequestDTO createFakeStoreProductRequestDTO)
     {
         Product product=productService.createProduct(
@@ -54,7 +56,7 @@ public class ProductController
                 createFakeStoreProductRequestDTO.getDescription(),
                 createFakeStoreProductRequestDTO.getImageUrl(),
                 createFakeStoreProductRequestDTO.getCategory());
-        return ProductResponseDTO.from(product);
+        return new ResponseEntity<>(ProductResponseDTO.from(product), HttpStatus.CREATED);
     }
 
     @PutMapping("/product/{ID}")

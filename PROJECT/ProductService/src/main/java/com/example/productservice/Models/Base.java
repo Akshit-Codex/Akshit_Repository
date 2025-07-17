@@ -16,7 +16,7 @@ public class Base
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String name;
     private Date created_at;
     private Date updated_at;

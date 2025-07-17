@@ -19,16 +19,17 @@ public class FakeStoreResponseDTO
     public Product toProduct()
     {
         Product product=new Product();
-        //product.setID(ID);
+        product.setId(ID);
         product.setName(title);
-        product.setPrice(price);
         product.setDescription(description);
         product.setImageURL(image);
+        product.setPrice(price);
 
         Category category1=new Category();
         category1.setName(category);
 
         product.setCategory(category1);
+
         return product;
     }
 }
