@@ -18,6 +18,10 @@ public class ProductResponseDTO
 
     public static ProductResponseDTO from(Product product)
     {
+        if(product == null)
+        {
+            return null;
+        }
         ProductResponseDTO productResponseDTO=new ProductResponseDTO();
         productResponseDTO.setID(product.getId());
         productResponseDTO.setName(product.getName());
